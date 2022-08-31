@@ -43,7 +43,7 @@ defmodule OffBroadwayAmqp10.Amqp10.Client.Impl do
       :receiver,
       delivery_id,
       delivery_id,
-      false,
+      true,
       :rejected
     )
   end
