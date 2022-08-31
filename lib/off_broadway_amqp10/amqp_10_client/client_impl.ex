@@ -34,6 +34,21 @@ defmodule OffBroadwayAmqp10.Amqp10.Client.Impl do
   end
 
   @impl Client
+  def reject_msg(%State{} = state, ack_data) do
+    IO.inspect(ack_data, label: "ack_data")
+    delivery_id = :amqp10_msg.delivery_id(ack_data)
+
+    :amqp10_client_session.disposition(
+      state.session,
+      :receiver,
+      delivery_id,
+      delivery_id,
+      false,
+      :rejected
+    )
+  end
+
+  @impl Client
   def body(raw_msg) do
     [payload] = :amqp10_msg.body(raw_msg)
     payload

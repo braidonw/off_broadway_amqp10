@@ -13,6 +13,7 @@ defmodule OffBroadwayAmqp10.Amqp10.Client do
   @callback attach(State.t()) :: {:ok, State.receiver()}
   @callback flow_link_credit(State.t(), non_neg_integer()) :: :ok
   @callback accept_msg(State.t(), State.raw_message()) :: :ok
+  @callback reject_msg(State.t(), State.raw_message()) :: :ok
 
   # Parsing
   @callback body(State.raw_message()) :: binary()

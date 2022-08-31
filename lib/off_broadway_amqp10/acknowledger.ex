@@ -12,7 +12,12 @@ defmodule OffBroadwayAmqp10.Acknowledger do
     ack_messages(failed, amqp_state, :failed)
   end
 
-  defp ack_messages(_failed, _amqp_state, :failed) do
+  defp ack_messages(failed, amqp_state, :failed) do
+    for %{acknowledger: {_module, _receiver, ack_data}} = msg <- failed do
+      :ok = amqp_state.client_module.reject_msg(amqp_state, ack_data)
+      msg.data
+    end
+
     :ok
   end
 
